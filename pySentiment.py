@@ -1,4 +1,4 @@
-# Simple program that demonstrates how to invoke Azure ML Text Analytics API: key phrases, language and sentiment detection.
+# First pulls data from twitter using the twittertest.py, then formats the data and sends it to microsoft's sentiment ai
 import urllib2
 import urllib
 import sys
