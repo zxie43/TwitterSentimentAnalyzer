@@ -27,9 +27,7 @@ print jsontext
 jsontext = '{"documents":'+jsontext+'}\''
 print jsontext
 
-#print output
-f = open("output.txt",'w')
-print >>f, jsontext
+
 
 base_url = 'https://westus.api.cognitive.microsoft.com/'
 
@@ -39,6 +37,8 @@ headers = {'Content-Type':'application/json', 'Ocp-Apim-Subscription-Key':accoun
             
 num_detect_langs = 1;
 
+sentiments = []
+
 # Detect sentiment.
 batch_sentiment_url = base_url + 'text/analytics/v2.0/sentiment'
 req = urllib2.Request(batch_sentiment_url, jsontext, headers) 
@@ -47,3 +47,13 @@ result = response.read()
 obj = json.loads(result)
 for sentiment_analysis in obj['documents']:
     print('Sentiment ' + str(sentiment_analysis['id']) + ' score: ' + str(sentiment_analysis['score']))
+    sentiments.append({'id': str(sentiment_analysis['id']), 'sentiment': str(sentiment_analysis['score']).encode("utf-8")})
+
+sentiments = json.dumps(sentiments)
+sentiments = '{"documents":'+sentiments+'}\''
+#print output
+f = open("output.json",'w')
+print >>f, jsontext
+#print output
+g = open("sentiments.json",'w')
+print >>g, sentiments
